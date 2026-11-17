@@ -26,6 +26,17 @@
         font-size: 15px;
         line-height: 1.55;
       }
+      /* ---------- Site shell: one centered width for the whole site ---------- */
+      /* Masthead, topnav, content columns and footer all live inside this
+         single shell, itself constrained to var(--page-max) and centered.
+         Each of those four blocks is ALSO constrained to var(--page-max)
+         and centered on its own (below), so the top can never stretch
+         wider than the content: in Nuke mode all four are exactly 1180px
+         centered with the page background showing on the sides, and in
+         Full mode (--page-max: 100%) all four stretch full width together. */
+      .site-shell {
+        max-width: var(--page-max); margin-left: auto; margin-right: auto; width: 100%;
+      }
       a { color: var(--link); text-decoration: none; }
       a:hover { color: var(--link-hover); text-decoration: underline; }
       h1, h2, h3, h4 { font-family: "Rajdhani", "Segoe UI", sans-serif; color: var(--heading); margin: 0; }
@@ -60,7 +71,7 @@
       /* ---------- Top nav ---------- */
       .topnav {
         background: var(--nav-bg); border-bottom: 1px solid var(--border-soft);
-        display: flex; flex-wrap: wrap; align-items: center; padding: 0 10px; gap: 2px 10px;
+        display: flex; flex-wrap: wrap; align-items: center; padding: 0; gap: 2px 10px;
         max-width: var(--page-max); margin-left: auto; margin-right: auto; width: 100%;
       }
       .nav-links { display: flex; flex-wrap: wrap; align-items: center; }
@@ -70,7 +81,7 @@
         display: inline-flex; align-items: center; border-right: 1px solid rgba(255,255,255,.16);
       }
       .topnav a:hover { color: #ffffff; background: rgba(255,255,255,.14); text-decoration: none; }
-      .nav-controls { display: flex; align-items: center; gap: 10px; margin-left: auto; padding: 6px 0; flex-wrap: wrap; }
+      .nav-controls { display: flex; align-items: center; gap: 10px; margin-left: auto; padding: 6px 10px 6px 0; flex-wrap: wrap; }
       .width-btn {
         background: rgba(255,255,255,.14); color: #ffffff; border: 1px solid rgba(255,255,255,.30);
         font-family: "Rajdhani", sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 1px;
@@ -81,7 +92,7 @@
       /* ---------- Layout ---------- */
       .layout {
         display: grid; grid-template-columns: 228px minmax(0, 1fr) 302px;
-        gap: 14px; max-width: var(--page-max); margin: 0 auto; padding: 14px;
+        gap: 14px; max-width: var(--page-max); margin: 0 auto; padding: 14px 0;
         align-items: start; width: 100%;
       }
       .col { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
@@ -200,6 +211,22 @@
       footer.site-foot .f-links a { padding: 2px 0; display: inline-flex; align-items: center; }
       footer.site-foot .f-right { margin-left: auto; }
 
+      /* ---------- One width, no overhang ---------- */
+      /* Single geometry rule for the whole site, placed after the four
+         individual rules so nothing can drift wider than the rest.
+         border-box is explicit on each block: padding and borders sit
+         INSIDE the width, never added to it, so no block — nav bar
+         included — can stick out past the others. In Nuke mode all
+         four are exactly 1180px centered, left and right edges flush;
+         in Full mode all four are 100% together. */
+      .masthead, .topnav, .layout, footer.site-foot {
+        box-sizing: border-box;
+        width: 100%;
+        max-width: var(--page-max);
+        margin-left: auto;
+        margin-right: auto;
+      }
+
       /* ---------- Responsive ---------- */
       @media (max-width: 1080px) {
         .layout { grid-template-columns: 210px minmax(0, 1fr); }
@@ -207,7 +234,7 @@
         .status { position: static; }
       }
       @media (max-width: 720px) {
-        .layout { display: flex; flex-direction: column; padding: 10px; }
+        .layout { display: flex; flex-direction: column; padding: 10px 0; }
         .col-center { order: 1; width: 100%; }
         .col-left { order: 2; width: 100%; }
         .col-right { order: 3; width: 100%; display: flex; }
@@ -673,6 +700,7 @@
     </style>
   </head>
   <body id="top">
+    <div class="site-shell">
 
     <header class="masthead">
       <div class="logo-mark" role="img" aria-label="CTP">CTP</div>
@@ -1016,6 +1044,7 @@
       </nav>
       <span class="f-right">Conscious Translational Physics · CTP Energy</span>
     </footer>
+    </div><!-- /.site-shell -->
 
     <script>
       (function () {
