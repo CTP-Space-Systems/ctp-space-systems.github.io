@@ -26,14 +26,16 @@
         font-size: 15px;
         line-height: 1.55;
       }
-      /* ---------- Site shell: one centered width for the whole site ---------- */
+      /* ---------- Site shell: the ONE width owner for the whole site ---------- */
       /* Masthead, topnav, content columns and footer all live inside this
-         single shell, itself constrained to var(--page-max) and centered.
-         Each of those four blocks is ALSO constrained to var(--page-max)
-         and centered on its own (below), so the top can never stretch
-         wider than the content: in Nuke mode all four are exactly 1180px
-         centered with the page background showing on the sides, and in
-         Full mode (--page-max: 100%) all four stretch full width together. */
+         single shell, and the shell is the ONLY element that carries the
+         page width (var(--page-max), centered). The four blocks inside it
+         are plain width:100% with no max-width and no auto margins of
+         their own, so they cannot compute a different box and drift:
+         the left column's left edge and the right column's right edge
+         ARE the shell's edges, which are the nav bar's edges. In Nuke
+         mode that is exactly 1180px centered; in Full mode
+         (--page-max: 100%) all four stretch full width together. */
       .site-shell {
         max-width: var(--page-max); margin-left: auto; margin-right: auto; width: 100%;
       }
@@ -47,7 +49,7 @@
         border-bottom: 2px solid var(--line);
         padding: 14px 18px;
         display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
-        max-width: var(--page-max); margin-left: auto; margin-right: auto; width: 100%;
+        width: 100%;
       }
       .masthead .logo-mark {
         width: 64px; height: 64px; flex: 0 0 64px; display: flex; align-items: center; justify-content: center;
@@ -72,7 +74,7 @@
       .topnav {
         background: var(--nav-bg); border-bottom: 1px solid var(--border-soft);
         display: flex; flex-wrap: wrap; align-items: center; padding: 0; gap: 2px 10px;
-        max-width: var(--page-max); margin-left: auto; margin-right: auto; width: 100%;
+        width: 100%;
       }
       .nav-links { display: flex; flex-wrap: wrap; align-items: center; }
       .topnav a {
@@ -92,7 +94,7 @@
       /* ---------- Layout ---------- */
       .layout {
         display: grid; grid-template-columns: 228px minmax(0, 1fr) 302px;
-        gap: 14px; max-width: var(--page-max); margin: 0 auto; padding: 14px 0;
+        gap: 14px; margin: 0; padding: 14px 0;
         align-items: start; width: 100%;
       }
       .col { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
@@ -201,31 +203,33 @@
 
       /* ---------- Footer ---------- */
       footer.site-foot {
-        margin: 4px auto 0; border: 1px solid var(--border-soft); background: var(--surface);
+        margin: 4px 0 0; border: 1px solid var(--border-soft); background: var(--surface);
         padding: 12px; font-size: 12px; color: var(--muted);
         display: flex; gap: 8px 22px; flex-wrap: wrap; align-items: center;
-        max-width: var(--page-max); width: 100%;
+        width: 100%;
       }
       footer.site-foot .f-tag { color: var(--muted); }
       footer.site-foot .f-links { display: flex; gap: 8px 16px; flex-wrap: wrap; align-items: center; }
       footer.site-foot .f-links a { padding: 2px 0; display: inline-flex; align-items: center; }
       footer.site-foot .f-right { margin-left: auto; }
 
-      /* ---------- One width, no overhang ---------- */
-      /* Single geometry rule for the whole site, placed after the four
-         individual rules so nothing can drift wider than the rest.
-         border-box is explicit on each block: padding and borders sit
-         INSIDE the width, never added to it, so no block — nav bar
-         included — can stick out past the others. In Nuke mode all
-         four are exactly 1180px centered, left and right edges flush;
-         in Full mode all four are 100% together. */
+      /* ---------- One width, no overhang, no inset ---------- */
+      /* Enforcement rule, placed after the four individual rules: the
+         four blocks fill the shell exactly — width:100% of it, no
+         max-width of their own, no side margins, no side padding on
+         the layout — and border-box keeps borders/padding INSIDE that
+         width. So the nav bar and the content columns share the same
+         outer edges by construction: in Nuke mode both are exactly
+         the shell's 1180px, left and right edges flush; in Full mode
+         both are 100% together. */
       .masthead, .topnav, .layout, footer.site-foot {
         box-sizing: border-box;
         width: 100%;
-        max-width: var(--page-max);
-        margin-left: auto;
-        margin-right: auto;
+        max-width: none;
+        margin-left: 0;
+        margin-right: 0;
       }
+      .layout { padding-left: 0; padding-right: 0; }
 
       /* ---------- Responsive ---------- */
       @media (max-width: 1080px) {
@@ -295,7 +299,7 @@
     --navy:#0b395d; --navy-dark:#011631; --blue:#0b395d; --blue-mid:#00aeef;
     --blue-pale:#c7d7e5; --blue-wash:#cddce9; --blue-soft:#b0c4d6;
     --page:#9db8cc; --text:#011631; --text-2:#011631; --text-3:#021d38; --muted:#062f4f; --line:#0b395d;
-    --outer:#062f4f; --surface:#d7e3ee; --heading:#0b395d; --link:#062f4f; --link-hover:#011631;
+    --outer:#b0c4d6; --surface:#d7e3ee; --heading:#0b395d; --link:#062f4f; --link-hover:#011631;
     --border-soft:#7a9bb3; --border-faint:#9db8cc; --input-bg:#eaf2f8; --input-focus:#ffffff;
     --btn-bg:#eaf2f8; --btn-text:#011631; --header-grad:linear-gradient(to bottom,#12507d 0%,#0b395d 45%,#062f4f 100%);
     --title-grad:linear-gradient(to bottom,#0b395d,#062f4f); --nav-bg:#011631; --strip-bg:#011631;
