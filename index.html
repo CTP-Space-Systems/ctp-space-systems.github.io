@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="light dark" />
     <script>(function(){try{var w=localStorage.getItem('ctp-width');if(w==='full'||w==='nuke'){document.documentElement.setAttribute('data-width',w);}}catch(e){}})();</script>
+    <script>(function(){try{var VALID=['eos','eos-light','eos-medium','eos-medium-dark','eos-dark','space-cadet-light','space-cadet-medium','space-cadet-medium-dark','space-cadet-dark','midnight-blue','midnight','tecknotronic-psy','tecknotronic-matrix','ctpix','cdomain-light','cdomain-medium','cdomain-medium-dark','cdomain-dark','frey-light','frey-medium','frey-medium-dark','frey-dark','light','medium','dark','nuke-dark','matrix','amber','catppuccin','cerulean','synthwave','dracula','nord','cyberpunk','tokyonight','solarized','void-signal','plasma-field','cathode-green','deep-current','corporate'];var t=localStorage.getItem('ctp-space-systems-theme');if(t&&VALID.indexOf(t)>-1){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
     <link rel="icon" href="data:," />
     <title>CTP Space Systems</title>
     <meta name="description" content="CTP Space Systems™ — Pioneering the future of space and deep-space travel, bringing real UFO tech to humanity and beyond. CTP Gravitic Propulsion™ spacecraft based on Conscious Translational Physics." />
@@ -873,7 +874,7 @@
             <p>Your long-awaited Disclosure is finally here in the emergence of a new science we call CTP. Join us as we redefine what&rsquo;s possible and lead humanity toward a future among the stars that is possible in our lifetime.</p>
             <div class="mission-callout">
               <h3>Our Mission</h3>
-              <p>Advancing human consciousness in order to achieve interstellar travel within the next 10-15 years. We say it&rsquo;s possible. Let&rsquo;s do it!</p>
+              <p>Advancing human consciousness in order to achieve interstellar travel within the next 10–15 years. We say it&rsquo;s possible. Let&rsquo;s do it!</p>
             </div>
           </div>
         </section>
@@ -1045,7 +1046,7 @@
       </aside>
     </div>
 
-    <footer class="site-foot" id="privacy">
+    <footer class="site-foot">
       <span class="f-tag"><b>CTP Space Systems™</b> — Pioneering the future of space and deep-space travel, bringing real UFO tech to humanity and beyond.</span>
       <span>Home: <a href="https://ctp-space-systems.github.io/">ctp-space-systems.github.io</a></span>
       <span class="f-right">Conscious Translational Physics · CTP Energy</span>
@@ -1055,9 +1056,21 @@
     <script>
       (function () {
         var select = document.getElementById('themeSelect');
-        select.addEventListener('change', function () {
+        var THEME_KEY = 'ctp-space-systems-theme';
+        function applyTheme() {
           document.documentElement.setAttribute('data-theme', select.value);
-        });
+          try { localStorage.setItem(THEME_KEY, select.value); } catch (e) {}
+        }
+        /* Show the theme restored before first paint (or CTP Midnight, the
+           default, for a first-time visitor with no saved preference). */
+        var currentTheme = document.documentElement.getAttribute('data-theme');
+        if (currentTheme) {
+          for (var i = 0; i < select.options.length; i++) {
+            if (select.options[i].value === currentTheme) { select.value = currentTheme; break; }
+          }
+        }
+        select.addEventListener('change', applyTheme);
+        select.addEventListener('input', applyTheme);
         var widthBtn = document.getElementById('widthToggle');
         function syncWidthBtn() {
           var w = document.documentElement.getAttribute('data-width') || 'nuke';
