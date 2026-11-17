@@ -1,9 +1,10 @@
 <!doctype html>
-<html lang="en" data-theme="midnight">
+<html lang="en" data-theme="midnight" data-width="nuke">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="light dark" />
+    <script>(function(){try{var w=localStorage.getItem('ctp-width');if(w==='full'||w==='nuke'){document.documentElement.setAttribute('data-width',w);}}catch(e){}})();</script>
     <link rel="icon" href="data:," />
     <title>CTP Space Systems</title>
     <meta name="description" content="CTP Space Systems™ — Pioneering the future of space and deep-space travel, bringing real UFO tech to humanity and beyond. CTP Gravitic Propulsion™ spacecraft based on Conscious Translational Physics." />
@@ -13,6 +14,9 @@
     <style>
       button, [role="button"], select, summary, input:not([type="checkbox"], [type="radio"]) { min-height: 2rem; }
       * { box-sizing: border-box; }
+      :root { --page-max: 1180px; }
+      html[data-width="nuke"] { --page-max: 1180px; }
+      html[data-width="full"] { --page-max: 100%; }
       html { scroll-behavior: smooth; }
       body {
         margin: 0;
@@ -32,6 +36,7 @@
         border-bottom: 2px solid var(--line);
         padding: 14px 18px;
         display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+        max-width: var(--page-max); margin-left: auto; margin-right: auto; width: 100%;
       }
       .masthead .logo-mark {
         width: 64px; height: 64px; flex: 0 0 64px; display: flex; align-items: center; justify-content: center;
@@ -56,6 +61,7 @@
       .topnav {
         background: var(--nav-bg); border-bottom: 1px solid var(--border-soft);
         display: flex; flex-wrap: wrap; align-items: center; padding: 0 10px; gap: 2px 10px;
+        max-width: var(--page-max); margin-left: auto; margin-right: auto; width: 100%;
       }
       .nav-links { display: flex; flex-wrap: wrap; align-items: center; }
       .topnav a {
@@ -75,10 +81,9 @@
       /* ---------- Layout ---------- */
       .layout {
         display: grid; grid-template-columns: 228px minmax(0, 1fr) 302px;
-        gap: 14px; max-width: 1460px; margin: 0 auto; padding: 14px;
-        align-items: start;
+        gap: 14px; max-width: var(--page-max); margin: 0 auto; padding: 14px;
+        align-items: start; width: 100%;
       }
-      body.narrow .layout { max-width: 1020px; }
       .col { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
       .col-right { position: relative; }
 
@@ -187,6 +192,7 @@
       footer {
         border-top: 2px solid var(--line); background: var(--outer); margin-top: 6px;
         padding: 22px 18px 28px; text-align: center;
+        max-width: var(--page-max); margin-left: auto; margin-right: auto; width: 100%;
       }
       footer .f-tag { font-family: "Rajdhani", sans-serif; font-size: 17px; font-weight: 600; color: var(--heading); max-width: 760px; margin: 0 auto 8px; }
       footer .f-line { color: var(--muted); font-size: 13.5px; margin: 3px 0; }
@@ -687,7 +693,7 @@
       <a href="#ecosystem">Ecosystem</a>
       </div>
       <div class="nav-controls">
-        <button type="button" class="width-btn" id="widthToggle" aria-pressed="false">WIDTH: Full</button>
+        <button type="button" class="width-btn" id="widthToggle" aria-pressed="false" title="Toggle page width: classic Nuke or full spread">WIDTH: Nuke</button>
         <div class="theme-picker">
           <label for="themeSelect">Theme</label>
           <select id="themeSelect" aria-label="Site theme">
@@ -1019,10 +1025,19 @@
           document.documentElement.setAttribute('data-theme', select.value);
         });
         var widthBtn = document.getElementById('widthToggle');
+        function syncWidthBtn() {
+          var w = document.documentElement.getAttribute('data-width') || 'nuke';
+          var isFull = w === 'full';
+          widthBtn.textContent = isFull ? 'WIDTH: Full' : 'WIDTH: Nuke';
+          widthBtn.setAttribute('aria-pressed', isFull ? 'true' : 'false');
+        }
+        syncWidthBtn();
         widthBtn.addEventListener('click', function () {
-          var narrow = document.body.classList.toggle('narrow');
-          widthBtn.textContent = narrow ? 'WIDTH: Narrow' : 'WIDTH: Full';
-          widthBtn.setAttribute('aria-pressed', narrow ? 'true' : 'false');
+          var current = document.documentElement.getAttribute('data-width') || 'nuke';
+          var next = current === 'full' ? 'nuke' : 'full';
+          document.documentElement.setAttribute('data-width', next);
+          try { localStorage.setItem('ctp-width', next); } catch (e) {}
+          syncWidthBtn();
         });
       })();
     </script>
