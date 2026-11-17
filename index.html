@@ -189,16 +189,16 @@
       .ads-note { font-family: "Share Tech Mono", monospace; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
 
       /* ---------- Footer ---------- */
-      footer {
-        border-top: 2px solid var(--line); background: var(--outer); margin-top: 6px;
-        padding: 22px 18px 28px; text-align: center;
-        max-width: var(--page-max); margin-left: auto; margin-right: auto; width: 100%;
+      footer.site-foot {
+        margin: 4px auto 0; border: 1px solid var(--border-soft); background: var(--surface);
+        padding: 12px; font-size: 12px; color: var(--muted);
+        display: flex; gap: 8px 22px; flex-wrap: wrap; align-items: center;
+        max-width: var(--page-max); width: 100%;
       }
-      footer .f-tag { font-family: "Rajdhani", sans-serif; font-size: 17px; font-weight: 600; color: var(--heading); max-width: 760px; margin: 0 auto 8px; }
-      footer .f-line { color: var(--muted); font-size: 13.5px; margin: 3px 0; }
-      footer .f-links { margin-top: 12px; display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; }
-      footer .f-links a { padding: 8px 12px; min-height: 36px; display: inline-flex; align-items: center; font-family: "Rajdhani", sans-serif; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; font-size: 14px; }
-      footer .f-fine { color: var(--muted); font-size: 12px; margin-top: 12px; }
+      footer.site-foot .f-tag { color: var(--muted); }
+      footer.site-foot .f-links { display: flex; gap: 8px 16px; flex-wrap: wrap; align-items: center; }
+      footer.site-foot .f-links a { padding: 2px 0; display: inline-flex; align-items: center; }
+      footer.site-foot .f-right { margin-left: auto; }
 
       /* ---------- Responsive ---------- */
       @media (max-width: 1080px) {
@@ -697,7 +697,7 @@
         <div class="theme-picker">
           <label for="themeSelect">Theme</label>
           <select id="themeSelect" aria-label="Site theme">
-            <option value="eos">CTP-EOS</option>
+            <option value="eos">CTP-EOS Cynamic</option>
             <option value="eos-light">CTP-EOS Light</option>
             <option value="eos-medium">CTP-EOS Medium</option>
             <option value="eos-medium-dark">CTP-EOS Medium Dark</option>
@@ -708,13 +708,13 @@
             <option value="space-cadet-dark">CTP Space Cadet Dark</option>
             <option value="midnight-blue">CTP Midnight Blue</option>
             <option value="midnight" selected>CTP Midnight</option>
-            <option value="tecknotronic-psy">Tecknotronic Psy</option>
-            <option value="tecknotronic-matrix">Tecknotronic Matrix</option>
+            <option value="tecknotronic-psy">CTP Tecknotronic Psy</option>
+            <option value="tecknotronic-matrix">CTP Tecknotronic Matrix</option>
             <option value="ctpix">CTPIX</option>
-            <option value="cdomain-light">C-Domain Light</option>
-            <option value="cdomain-medium">C-Domain Medium</option>
-            <option value="cdomain-medium-dark">C-Domain Medium Dark</option>
-            <option value="cdomain-dark">C-Domain Dark</option>
+            <option value="cdomain-light">C-domain Light</option>
+            <option value="cdomain-medium">C-domain Medium</option>
+            <option value="cdomain-medium-dark">C-domain Medium Dark</option>
+            <option value="cdomain-dark">C-domain Dark</option>
             <option value="frey-light">Frey Light</option>
             <option value="frey-medium">Frey Medium</option>
             <option value="frey-medium-dark">Frey Medium Dark</option>
@@ -1005,17 +1005,16 @@
       </aside>
     </div>
 
-    <footer>
-      <p class="f-tag">CTP Space Systems™: Pioneering the future of space and deep-space travel, bringing real UFO tech to humanity and beyond.</p>
-      <p class="f-line">Home: <a href="https://ctpss.github.io/">ctpss.github.io</a></p>
-      <p class="f-line">Conscious Translational Physics · CTP Energy</p>
+    <footer class="site-foot" id="privacy">
+      <span class="f-tag">CTP Space Systems™: Pioneering the future of space and deep-space travel, bringing real UFO tech to humanity and beyond.</span>
+      <span>Home: <a href="https://ctpss.github.io/">ctpss.github.io</a></span>
       <nav class="f-links" aria-label="Footer">
         <a href="#vision">About</a>
         <a href="mailto:info@ctp-energy.com">Contact</a>
         <a href="#press">Press</a>
         <a href="#privacy">Privacy</a>
       </nav>
-      <p class="f-fine" id="privacy">Privacy: this is a static page — it sets no cookies, runs no analytics and collects no visitor data.</p>
+      <span class="f-right">Conscious Translational Physics · CTP Energy</span>
     </footer>
 
     <script>
