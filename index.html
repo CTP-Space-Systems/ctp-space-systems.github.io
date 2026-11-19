@@ -703,6 +703,31 @@
     --title-grad:linear-gradient(to bottom,#1e3a8a,#2563eb); --nav-bg:#1e3a8a; --strip-bg:#1e3a8a;
     --mark-bg:#ffffff; --mark-text:#1e3a8a; --hover-border:#2563eb;
   }
+      .module-subtitle { font-size:12px; color:var(--muted); margin-top:2px; padding:0 12px 8px; }
+      .mp-label { font-family:"Share Tech Mono",monospace; font-size:11px; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
+      .mp-channel { font-family:"Rajdhani",sans-serif; font-size:19px; font-weight:700; color:var(--heading); line-height:1.2; margin:2px 0; }
+      .mp-genre { font-size:12px; color:var(--muted); }
+      .mp-track { margin-top:9px; border-top:1px solid var(--border-faint); padding-top:8px; font-size:13px; color:var(--text-2); }
+      .mp-track .t { font-weight:600; color:var(--text); }
+      .mp-eq { display:flex; align-items:flex-end; gap:3px; height:22px; margin:10px 0 2px; }
+      .mp-eq i { flex:1; background:var(--line); height:22%; min-height:3px; }
+      .mp-eq.playing i { animation:mp-eq .9s ease-in-out infinite alternate; }
+      .mp-eq.playing i:nth-child(2){animation-duration:.7s} .mp-eq.playing i:nth-child(3){animation-duration:1.1s}
+      .mp-eq.playing i:nth-child(4){animation-duration:.6s} .mp-eq.playing i:nth-child(5){animation-duration:1s}
+      .mp-eq.playing i:nth-child(6){animation-duration:.8s} .mp-eq.playing i:nth-child(7){animation-duration:1.2s}
+      @keyframes mp-eq { from{height:12%} to{height:100%} }
+      .mp-controls { display:flex; align-items:center; gap:8px; margin-top:10px; }
+      .mp-play { width:54px; height:54px; flex:none; border-radius:50%; cursor:pointer; background:var(--btn-bg); border:1px solid var(--line); color:var(--heading); display:grid; place-items:center; padding:0; }
+      .mp-play:hover { border-color:var(--hover-border); }
+      .mp-play svg { width:24px; height:24px; fill:var(--heading); }
+      .mp-stop { width:40px; height:40px; flex:none; border-radius:50%; cursor:pointer; background:var(--btn-bg); color:var(--btn-text); border:1px solid var(--border-soft); display:grid; place-items:center; padding:0; }
+      .mp-stop svg { width:14px; height:14px; fill:currentColor; }
+      .mp-state { font-size:12.5px; color:var(--muted); }
+      .mp-vol { display:flex; align-items:center; gap:7px; margin-top:10px; font-size:12px; color:var(--muted); }
+      .mp-vol input[type="range"] { flex:1; min-width:0; accent-color:var(--line); min-height:2rem; }
+      .mp-status { margin-top:9px; font-size:12px; font-weight:600; letter-spacing:.03em; color:var(--text); }
+      .mp-source { font-family:"Share Tech Mono",monospace; font-size:11px; color:var(--muted); word-break:break-all; margin-top:3px; }
+      @media (prefers-reduced-motion: reduce) { .mp-eq.playing i { animation:none; } }
     </style>
   </head>
   <body id="top">
@@ -957,6 +982,34 @@
 
       <!-- ================= RIGHT COLUMN ================= -->
       <aside class="col col-right">
+        <section class="module" id="space-radio" aria-label="CTP Space Radio">
+          <div class="module-title">CTP Space Radio</div>
+          <div class="module-subtitle">C-domain Frequencies</div>
+          <div class="module-body">
+            <div class="mp-label">Now Playing</div>
+            <div class="mp-channel">Terahertzwellen</div>
+            <div class="mp-genre">Ambient / IDM / Downtempo / Dark Ambient · laut.fm</div>
+            <div class="mp-eq" id="mpEq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="mp-track" id="mpTrack"><span style="color:var(--muted);">Press play — live radio, no playlist, no skip.</span></div>
+            <div class="mp-controls">
+              <button type="button" class="mp-play" id="mpPlayBtn" aria-label="Play">
+                <svg viewBox="0 0 24 24" aria-hidden="true" id="mpPlayIcon"><path d="M7 4.5v15l13-7.5z"/></svg>
+              </button>
+              <button type="button" class="mp-stop" id="mpStopBtn" aria-label="Stop">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5z"/></svg>
+              </button>
+              <span class="mp-state" id="mpState">Ready</span>
+            </div>
+            <div class="mp-vol">
+              <label for="mpVol">Volume</label>
+              <input type="range" id="mpVol" min="0" max="100" value="80" />
+            </div>
+            <div class="mp-status" id="mpStatus">Stream loaded — press play</div>
+            <div class="mp-source">stream.laut.fm/terahertzwellen</div>
+            <audio id="mpAudio" preload="none"></audio>
+          </div>
+        </section>
+
         <section class="module status" id="mission-status" aria-label="Mission status">
           <div class="module-title">Mission Status</div>
           <div class="module-body">
@@ -1086,6 +1139,77 @@
           try { localStorage.setItem('ctp-width', next); } catch (e) {}
           syncWidthBtn();
         });
+      })();
+    </script>
+    <script>
+      /* CTP Space Radio — single channel: Terahertzwellen on laut.fm.
+         Ambient / IDM / Downtempo / Dark Ambient. Click-to-play only, no autoplay. */
+      (function () {
+        var STREAM = 'https://stream.laut.fm/terahertzwellen';
+        var audio = document.getElementById('mpAudio');
+        if (!audio) return;
+        var playBtn = document.getElementById('mpPlayBtn');
+        var playIcon = document.getElementById('mpPlayIcon');
+        var ICON_PLAY = '<path d="M7 4.5v15l13-7.5z"/>';
+        var ICON_PAUSE = '<path d="M6 4h4v16H6zM14 4h4v16h-4z"/>';
+        var metaTimer = null;
+        function setState(txt) { document.getElementById('mpState').textContent = txt; }
+        function setStatus(txt) { document.getElementById('mpStatus').textContent = txt; }
+        function setPlayingUI(isPlaying) {
+          document.getElementById('mpEq').classList.toggle('playing', isPlaying);
+          playIcon.innerHTML = isPlaying ? ICON_PAUSE : ICON_PLAY;
+          playBtn.setAttribute('aria-label', isPlaying ? 'Pause' : 'Play');
+        }
+        function fetchMeta() {
+          fetch('https://api.laut.fm/station/terahertzwellen/current_song')
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (song) {
+              if (!song) return;
+              var artist = (song.artist && song.artist.name) ? song.artist.name : '';
+              var title = song.title || '';
+              if (!artist && !title) return;
+              var track = document.getElementById('mpTrack');
+              track.innerHTML = '';
+              var lab = document.createElement('div');
+              lab.className = 'mp-label'; lab.textContent = 'On air now';
+              var t = document.createElement('div');
+              var strong = document.createElement('span'); strong.className = 't';
+              strong.textContent = artist ? (artist + ' — ' + title) : title;
+              t.appendChild(strong);
+              track.appendChild(lab); track.appendChild(t);
+            })
+            .catch(function () { /* metadata is a bonus; the stream itself keeps playing */ });
+        }
+        function startMeta() {
+          fetchMeta();
+          if (metaTimer) clearInterval(metaTimer);
+          metaTimer = setInterval(fetchMeta, 45000);
+        }
+        playBtn.addEventListener('click', function () {
+          if (audio.paused) {
+            if (!audio.getAttribute('src')) audio.src = STREAM;
+            audio.play().catch(function () { setStatus('Press play to listen'); });
+            startMeta();
+          } else {
+            audio.pause();
+          }
+        });
+        document.getElementById('mpStopBtn').addEventListener('click', function () {
+          audio.pause();
+          audio.removeAttribute('src'); audio.load();
+          if (metaTimer) { clearInterval(metaTimer); metaTimer = null; }
+          setPlayingUI(false); setState('Stopped'); setStatus('Stream stopped — press play to reconnect');
+        });
+        document.getElementById('mpVol').addEventListener('input', function (e) {
+          audio.volume = e.target.value / 100;
+        });
+        audio.volume = 0.8;
+        audio.addEventListener('playing', function () { setPlayingUI(true); setState('On air'); setStatus('On air — live from laut.fm'); });
+        audio.addEventListener('waiting', function () { setState('Buffering…'); });
+        audio.addEventListener('pause', function () { setPlayingUI(false); if (audio.getAttribute('src')) { setState('Paused'); setStatus('Paused'); } });
+        audio.addEventListener('error', function () {
+          if (audio.getAttribute('src')) { setPlayingUI(false); setState('Offline'); setStatus('Stream unavailable right now — please try again later'); }
+        }, true);
       })();
     </script>
   </body>
