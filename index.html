@@ -113,6 +113,10 @@
       .module-body p { margin: 0 0 10px; color: var(--text-2); }
       .module-body p:last-child { margin-bottom: 0; }
 
+      /* ---------- CTPVerse Sites rotator ---------- */
+      .ctpsites-link { display: block; }
+      .ctpsites-link img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
+
       .menu { list-style: none; margin: 0; padding: 6px 0; }
       .menu li a {
         display: block; padding: 7px 12px; min-height: 36px; color: var(--text-2);
@@ -874,6 +878,11 @@
             </a>
           </div>
         </section>
+
+        <section class="module" aria-label="CTPVerse Sites">
+          <div class="module-title">CTPVerse Sites</div>
+          <div class="module-body" style="line-height:0;"><a class="ctpsites-link" id="ctpsites-link" href="https://ctpverse.github.io/" target="_blank" rel="noopener" title="CTPVerse Dashboard"><img id="ctpsites-img" src="https://ctpverse.github.io/assets/branding/ctpverse-org-avatar.jpg" alt="CTPVerse Dashboard" width="1024" height="1024" style="display:block; width:100%; height:auto;" /></a></div>
+        </section>
       </aside>
 
       <!-- ================= CENTER COLUMN ================= -->
@@ -1224,5 +1233,38 @@
     }, true);
   })();
 </script>
+  <script>
+  (function () {
+    var sites = [
+      { name: "CTPVerse Dashboard", href: "https://ctpverse.github.io/", img: "https://ctpverse.github.io/assets/branding/ctpverse-org-avatar.jpg" },
+      { name: "CTP-EOS", href: "https://ctp-eos.github.io/", img: "https://ctp-eos.github.io/assets/branding/ctp-eos-triangle-logo.jpg" },
+      { name: "CTP Magazine", href: "https://ctp-magazine.github.io/", img: "https://ctp-magazine.github.io/assets/branding/ctp-magazine-1254x1254.png" },
+      { name: "FIN-DSP", href: "https://fin-dsp.github.io/", img: "https://fin-dsp.github.io/assets/branding/findsp-logo-200x200.jpg" },
+      { name: "CTP Music Portal", href: "https://ctp-music.github.io/", img: "https://ctp-music.github.io/assets/branding/ctp-music-org-avatar.jpg" }
+    ];
+    var link = document.getElementById("ctpsites-link");
+    var img = document.getElementById("ctpsites-img");
+    if (!link || !img) { return; }
+    var idx = 0;
+    function show(i) {
+      idx = i;
+      link.href = sites[i].href;
+      link.title = sites[i].name;
+      img.src = sites[i].img;
+      img.alt = sites[i].name;
+    }
+    function randomNext() {
+      var n = idx;
+      while (n === idx) { n = Math.floor(Math.random() * sites.length); }
+      show(n);
+    }
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) { return; }
+    var timer = setInterval(randomNext, 5000);
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) { clearInterval(timer); }
+      else { timer = setInterval(randomNext, 5000); }
+    });
+  })();
+  </script>
   </body>
 </html>
