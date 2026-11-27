@@ -1189,3 +1189,6 @@
       .paypal-word .pay{color:#003087}
       .paypal-word .pal{color:#009cde}
     
+      /* CTP-EOS banner (centre column, above CTPETEAMS banner) — mirrors ctp-eos */
+      .eos-banner { max-width:100%; overflow:hidden; }
+      .eos-banner img { max-width:100%; width:100%; height:auto; display:block; border:1px solid var(--border-soft); }
