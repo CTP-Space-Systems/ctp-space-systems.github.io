@@ -413,6 +413,8 @@
     --nav-bg:#000000; --strip-bg:#2233A7;
     --mark-bg:#0A0A2E; --mark-text:#8597F9; --hover-border:#4B66FF;
   }
+  /* Masthead sync: title matches the CTP mark box (--mark-text). */
+  [data-theme="club-ctp-medium-dark"] .masthead .wordmark .name{color:#8597F9}
   /* CLUB CTP LEFT COLUMN — MEDIUM-DARK: darker inverted panels (same inversion as 2006 original) */
   [data-theme="club-ctp-medium-dark"] .col-left .module{background:#000000; border:1px solid #4B66FF; color:#FFFFFF; --text:#FFFFFF; --text-2:#FFFFFF; --text-3:#FFFFFF; --muted:#A9B8FF; --heading:#FFFFFF; --link:#FFFFFF; --link-hover:#A9B8FF}
   [data-theme="club-ctp-medium-dark"] .col-left .module-title{background:#000000; color:#FFFFFF; border-bottom:1px solid #4B66FF}
@@ -496,6 +498,8 @@
     --title-grad:linear-gradient(to bottom,#2AA5C4,#0A0F14); --nav-bg:#05080A; --strip-bg:#05080A;
     --mark-bg:#0F1A20; --mark-text:#7ED4E8; --hover-border:#2AA5C4;
   }
+  /* Masthead sync: title matches the CTP mark box (--mark-text). */
+  [data-theme="calamares"] .masthead .wordmark .name{color:#7ED4E8}
       [data-theme="light"]{
     color-scheme:light;
     --navy:#003366; --navy-dark:#001f3f; --blue:#006699; --blue-mid:#3399cc;
@@ -940,6 +944,8 @@
     --title-grad:linear-gradient(to bottom,#590a44,#29083b); --nav-bg:#090214; --strip-bg:#090214;
     --mark-bg:#090214; --mark-text:#ff007f; --hover-border:#ff007f;
   }
+  /* Masthead sync: title matches the CTP mark box (--mark-text). */
+  [data-theme="synthwave"] .masthead .wordmark .name{color:#ff007f}
 [data-theme="dracula"]{
     color-scheme:dark;
     --navy:#4a1525; --navy-dark:#08070d; --blue:#ff5555; --blue-mid:#bd93f9;
