@@ -9,7 +9,8 @@
         { name: 'FIN-DSP', img: 'https://fin-dsp.github.io/assets/branding/findsp-logo-200x200.jpg', url: 'https://fin-dsp.github.io/' },
         { name: 'CTP Music Portal', img: 'https://ctp-music.github.io/assets/branding/ctp-music-org-avatar.jpg', url: 'https://ctp-music.github.io/' },
         { name: 'CTP-PSY', img: 'https://ctp-psy.github.io/assets/branding/ctp-psy-org-avatar.jpg', url: 'https://ctp-psy.github.io/' },
-        { name: 'CTPETEAMS', img: 'https://ctpeteams.github.io/assets/branding/ctpeteams-logo-400.jpg', url: 'https://ctpeteams.github.io/' }
+        { name: 'CTPETEAMS', img: 'https://ctpeteams.github.io/assets/branding/ctpeteams-logo-400.jpg', url: 'https://ctpeteams.github.io/' },
+        { name: 'CTPIDM', img: 'https://ctpidm.github.io/assets/branding/ctpidm-org-avatar.jpg', url: 'https://ctpidm.github.io/' }
       ];
       var link = document.getElementById('ctpsites-link');
       var img = document.getElementById('ctpsites-img');
