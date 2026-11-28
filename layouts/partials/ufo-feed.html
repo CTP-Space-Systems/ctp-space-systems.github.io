@@ -1,0 +1,10 @@
+{{ $feed := .Site.Data.ufo_feed }}
+{{ if $feed }}
+<h3 style="margin:14px 0 6px">UFO &amp; UAP — from the wider web</h3>
+<p>Headlines from UFO and UAP news sources, updated twice daily. These are external reports, not CTP articles — CTP's own news is above.</p>
+<ul style="margin:0; padding-left:17px">
+{{ range $feed }}
+  <li><a href="{{ .link }}" target="_blank" rel="noopener">{{ .title }}</a> — {{ .source }}{{ with .date }}, {{ (time .).Format "2 January 2006" }}{{ end }}</li>
+{{ end }}
+</ul>
+{{ end }}
