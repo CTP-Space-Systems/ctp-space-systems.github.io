@@ -1,0 +1,49 @@
+# UFO / UAP feed — twice-daily update
+# Runs twice a day (and on demand): fetches the UFO/UAP RSS feeds listed
+# in ufo-feeds.json (the same UFO/UAP sources the CTP Magazine draws from),
+# parses them with aggregate-ufo.py, and commits the updated
+# data/ufo_feed.json back to main if anything changed. Stdlib-only Python:
+# no pip installs needed.
+#
+# NOTE: this file must be added by the repo owner via the GitHub web UI
+# at .github/workflows/ufo-feed.yml — the API token Muse uses has no
+# `workflow` scope, so it cannot push workflow files. Same gap as the
+# FIN-DSP discover.yml and the CTP Magazine's aggregate.yml.
+
+name: Update UFO / UAP feed
+
+on:
+  schedule:
+    # Twice a day, at 00:00 and 12:00 UTC.
+    - cron: "0 0,12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-feed:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch and parse UFO / UAP feeds
+        run: python3 aggregate-ufo.py
+
+      - name: Commit updated feed data if changed
+        run: |
+          git config user.name "UFO feed updater"
+          git config user.email "actions@github.com"
+          git add data/ufo_feed.json
+          if git diff --cached --quiet; then
+            echo "No changes to data/ufo_feed.json — nothing to commit."
+          else
+            git commit -m "Update UFO / UAP feed ($(date -u +%Y-%m-%d\ %H:%M\ UTC))"
+            git push
+          fi
