@@ -11,6 +11,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
 {{ $css := resources.Get "css/main.css" | minify | fingerprint }}
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" />
+{{ $ufo := resources.Get "css/ufo-rotator.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $ufo.RelPermalink }}" />
 {{ if .Params.corporate }}
 {{ $corp := resources.Get "css/corporate.css" | minify | fingerprint }}
 <link rel="stylesheet" href="{{ $corp.RelPermalink }}" />
